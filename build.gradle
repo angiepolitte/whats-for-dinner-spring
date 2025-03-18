@@ -31,35 +31,20 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
-
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	implementation 'mysql:mysql-connector-java:8.0.32'
+	implementation("org.springframework.security:spring-security-crypto:5.5.1")
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
+	testImplementation 'org.springframework.security:spring-security-test'
+	runtimeOnly 'com.h2database:h2'
 }
-//dependencies {
-//	compileOnly 'org.projectlombok:lombok'
-//	annotationProcessor 'org.projectlombok:lombok'
-////	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-////	implementation 'org.springframework.boot:spring-boot-starter-validation'
-//	implementation 'org.springframework.boot:spring-boot-starter-web'
-////	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-////	implementation 'mysql:mysql-connector-java:8.0.32'
-//	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-////	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-////	implementation("org.springframework.security:spring-security-crypto:5.5.1")
-//
-//	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-////	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+
 ////	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-////	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
-////	testImplementation 'org.springframework.security:spring-security-test'
-//	implementation 'org.springframework.boot:spring-boot-starter-webflux'
-////	compileOnly 'org.projectlombok:lombok'
-////	runtimeOnly 'com.h2database:h2'
-////	annotationProcessor 'org.projectlombok:lombok'
-//}
-
-
-
-
-
 
 
 tasks.named('test') {
