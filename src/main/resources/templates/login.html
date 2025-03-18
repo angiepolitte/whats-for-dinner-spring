@@ -1,28 +1,46 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<!--<head th:replace="fragments :: head"></head>-->
-<body class="container">
-
-<!--<header th:replace="fragments :: header"></header>-->
-
-<form method="post">
-    <div class="form-group">
-        <label th:for="username">Username
-            <input class="form-control" th:field="${loginFormDTO.username}">
-        </label>
-        <p class="error" th:errors="${loginFormDTO.username}"></p>
+<head>
+    <title>Login</title>
+</head>
+<body>
+<h1>Login</h1>
+<form th:action="@{/login}" method="post">
+    <div>
+        <label>User Name : <input type="text" name="username"/></label>
     </div>
-    <div class="form-group">
-        <label>Password
-            <input class="form-control" th:field="${loginFormDTO.password}" type="password">
-        </label>
-        <p class="error" th:errors="${loginFormDTO.password}"></p>
+    <div>
+        <label>Password: <input type="password" name="password"/></label>
     </div>
-
-    <input type="submit" class="btn btn-primary" value="Log In" />
+    <div>
+        <input type="submit" value="Sign In"/>
+    </div>
 </form>
-
-<p>Don't have an account? <a href="/register">Register for one.</a></p>
-
 </body>
 </html>
+<!--&lt;!&ndash;<head th:replace="fragments :: head"></head>&ndash;&gt;-->
+<!--<body class="container">-->
+
+<!--&lt;!&ndash;<header th:replace="fragments :: header"></header>&ndash;&gt;-->
+
+<!--<form method="post">-->
+<!--    <div class="form-group">-->
+<!--        <label th:for="username">Username-->
+<!--            <input class="form-control" th:field="${loginFormDTO.username}">-->
+<!--        </label>-->
+<!--        <p class="error" th:errors="${loginFormDTO.username}"></p>-->
+<!--    </div>-->
+<!--    <div class="form-group">-->
+<!--        <label>Password-->
+<!--            <input class="form-control" th:field="${loginFormDTO.password}" type="password">-->
+<!--        </label>-->
+<!--        <p class="error" th:errors="${loginFormDTO.password}"></p>-->
+<!--    </div>-->
+
+<!--    <input type="submit" class="btn btn-primary" value="Log In" />-->
+<!--</form>-->
+
+<!--<p>Don't have an account? <a href="/register">Register for one.</a></p>-->
+
+<!--</body>-->
+<!--</html>-->
