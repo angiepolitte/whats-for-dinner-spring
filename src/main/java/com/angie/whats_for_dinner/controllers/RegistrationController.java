@@ -7,12 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-@Controller // Change to @Controller
+@RestController
+@CrossOrigin(origins = "http://localhost:5173") // Enable CORS for this controller
 public class RegistrationController {
 
     @Autowired
@@ -21,16 +19,11 @@ public class RegistrationController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/registration")
-    public String showRegistrationForm() {
-        return "registration"; // Return the name of the Thymeleaf template
-    }
-
-@PostMapping("/register")
-public ResponseEntity<String> registerUser(
-        @Valid @RequestParam String username,
-        @Valid @RequestParam String password,
-        @RequestParam String confirmPassword) {
+    @PostMapping("/register")
+    public ResponseEntity<String> registerUser(
+            @RequestParam String username,
+            @RequestParam String password,
+            @RequestParam String confirmPassword) {
 
     // Check if the username is already taken
     if (userRepository.findByUsername(username).isPresent()) {
@@ -48,11 +41,12 @@ public ResponseEntity<String> registerUser(
                 "Password must be at least 8 characters long and contain at least one letter, one number, and one special character.");
     }
 
-    // Save new user
-    User newUser = new User();
-    newUser.setUsername(username);
-    newUser.setPassword(passwordEncoder.encode(password));
-    userRepository.save(newUser);
+
+            User newUser = new User();
+            newUser.setUsername(username);
+            newUser.setPassword(passwordEncoder.encode(password));  // Ensure password is encoded
+            userRepository.save(newUser);  // Save the encoded password to the database
+
 
     return ResponseEntity.ok("User registered successfully.");
 }
