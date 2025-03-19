@@ -57,6 +57,10 @@ public class SecurityConfig {
                 .deleteCookies("JSESSIONID")
                 .permitAll());
 
+//        http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable())); // Allow CORS preflight requests to be processed before security
+            http.headers(headers -> headers.frameOptions(frameOptions -> frameOptions.sameOrigin()));
+
+
         return http.build();
     }
 
@@ -69,17 +73,3 @@ public class SecurityConfig {
         return authenticationProvider;
     }
 }
-
-//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(csrf -> csrf.disable())
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/register", "/registration").permitAll() // Add /registration
-//                        .anyRequest().authenticated()
-//                )
-//                .httpBasic(basic -> basic.disable()) // Disable HTTP Basic
-//                .formLogin(form -> form.permitAll()) // Enable form login if you want to use it
-//                .userDetailsService(userDetailsService)
-//                .authenticationProvider(authenticationProvider());
-//        return http.build();
-//    }
