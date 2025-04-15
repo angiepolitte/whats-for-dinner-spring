@@ -4,13 +4,17 @@ package com.angie.whats_for_dinner.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
+@Getter @Setter
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
     private Long id;
 
     @Column(name= "username")
@@ -22,28 +26,17 @@ public class User {
 
     private String password;
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FavoriteList> favoriteLists = new ArrayList<>();
+
     public User() {}
 
-    public User(Long id, String username, String password) {
+    public User(Long id, String username, String password, List<FavoriteList> favoriteLists) {
         this.id = id;
         this.username = username;
         this.password = password;
+        this.favoriteLists = favoriteLists;
     }
 
-    // Getters and Setters
-    public String getUsername() {
-        return username;
-    }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
