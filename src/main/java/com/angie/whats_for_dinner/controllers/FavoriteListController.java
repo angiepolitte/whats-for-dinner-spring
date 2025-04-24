@@ -23,6 +23,12 @@ public class FavoriteListController {
     @Autowired
     private FavoriteRestaurantRepository favoriteRestaurantRepository;
 
+    @GetMapping("/all-lists")
+    public ResponseEntity<List<FavoriteList>> getAllFavoriteLists() {
+        List<FavoriteList> lists = favoriteListService.getAllFavoriteLists();
+        return ResponseEntity.ok(lists);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<FavoriteList> createFavoriteList(@RequestBody FavoriteList favoriteList) {
         FavoriteList newList = favoriteListService.createFavoriteList(favoriteList.getName(), favoriteList.getUser().getId());

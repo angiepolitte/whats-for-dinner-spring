@@ -13,13 +13,13 @@
 //    @Autowired
 //    private UserRepository userRepository;  // Inject your repository to fetch user details
 //
-//    public boolean isValidLogin(String username, String password) {
-//        Optional<User> user = userRepository.findByUsername(username);  // Retrieve user by username
-//        if (user.isPresent()) {
-//            return password.equals(user.get().getPassword()); // Simple password comparison, ideally should be hashed
-//        }
-//        return false;
-//    }
+////    public boolean isValidLogin(String username, String password) {
+////        Optional<User> user = userRepository.findByUsername(username);  // Retrieve user by username
+////        if (user.isPresent()) {
+////            return password.equals(user.get().getPassword()); // Simple password comparison, ideally should be hashed
+////        }
+////        return false;
+////    }
 //}
 
 
