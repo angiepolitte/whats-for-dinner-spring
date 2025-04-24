@@ -2,15 +2,19 @@ package com.angie.whats_for_dinner.controllers;
 
 import com.angie.whats_for_dinner.data.UserRepository;
 import com.angie.whats_for_dinner.models.User;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+@Transactional
 @RestController
-@CrossOrigin(origins = "http://localhost:5173") // Enable CORS for this controller
+@CrossOrigin(origins = "http://localhost:5173")
+@RequestMapping("/register")
 public class RegistrationController {
 
     @Autowired
@@ -19,7 +23,7 @@ public class RegistrationController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @PostMapping("/register")
+    @PostMapping("/new-user")
     public ResponseEntity<String> registerUser(
             @RequestParam String username,
             @RequestParam String password,
@@ -44,11 +48,22 @@ public class RegistrationController {
 
             User newUser = new User();
             newUser.setUsername(username);
-            newUser.setPassword(passwordEncoder.encode(password));  // Ensure password is encoded
-            userRepository.save(newUser);  // Save the encoded password to the database
+            newUser.setPassword(passwordEncoder.encode(password));
+
+
+        System.out.println("Attempting to save user: " + newUser.getUsername()); // Log before save
+        User savedUser = userRepository.save(newUser);
+        System.out.println("User saved successfully with ID: " + savedUser.getId()); // Log after save
 
 
     return ResponseEntity.ok("User registered successfully.");
 }
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<String> handleRegistrationError(Exception ex) {
+        System.err.println("Error during registration: " + ex.getMessage());
+        ex.printStackTrace(); // Print the full stack trace
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Registration failed due to an internal error.");
+    }
 
 }

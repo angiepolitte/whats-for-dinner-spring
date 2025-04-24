@@ -9,6 +9,8 @@ import com.angie.whats_for_dinner.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class FavoriteListService {
 
@@ -17,6 +19,10 @@ public class FavoriteListService {
 
     @Autowired
     private UserRepository userRepository;
+
+    public List<FavoriteList> getAllFavoriteLists() {
+        return favoriteListRepository.findAll();
+    }
 
     public FavoriteList createFavoriteList(String listName, Long userId) {
         User user = userRepository.findById(userId)
