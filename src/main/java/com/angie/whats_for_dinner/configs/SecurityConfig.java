@@ -40,6 +40,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/user/info").permitAll()
                         .requestMatchers("/api/restaurants/**").permitAll()
                         .requestMatchers("/api/**").authenticated()
+                        .requestMatchers("/current-user").authenticated()
                         .requestMatchers("/api/favorite-lists/**").authenticated()
                         .requestMatchers("/register", "/registration", "/api/public/**", "/api/nurseries/**").authenticated()
                         .anyRequest().permitAll()
