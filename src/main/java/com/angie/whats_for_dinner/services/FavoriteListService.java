@@ -34,6 +34,8 @@ public class FavoriteListService {
 
         return favoriteListRepository.save(newList);
     }
+
+
     public void addRestaurantToList(Long listId, Long restaurantId, FavoriteRestaurantRepository favoriteRestaurantRepository) {
         FavoriteList list = favoriteListRepository.findById(listId)
                 .orElseThrow(() -> new RuntimeException("Favorite List not found"));

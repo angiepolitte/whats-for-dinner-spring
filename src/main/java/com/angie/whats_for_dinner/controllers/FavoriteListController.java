@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/favorite-lists")
@@ -30,8 +31,10 @@ public class FavoriteListController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<FavoriteList> createFavoriteList(@RequestBody FavoriteList favoriteList) {
-        FavoriteList newList = favoriteListService.createFavoriteList(favoriteList.getName(), favoriteList.getUser().getId());
+    public ResponseEntity<FavoriteList> createFavoriteList(@RequestBody Map<String, Object> payload) {
+        String name = (String) payload.get("name");
+        Long userId = ((Number) payload.get("userId")).longValue();
+        FavoriteList newList = favoriteListService.createFavoriteList(name, userId);
         return ResponseEntity.ok(newList);
     }
 
