@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -24,16 +25,20 @@ public class UserController {
 
     @Autowired
     private FavoriteListRepository favoriteListRepository;
-
     @GetMapping("/info")
-    public ResponseEntity<User> getCurrentUserInfo() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof org.springframework.security.core.userdetails.User) {
-            String username = ((org.springframework.security.core.userdetails.User) authentication.getPrincipal()).getUsername();
-            Optional<User> userOptional = userRepository.findByUsername(username);
-            return userOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<Map<String,String>> getCurrentUserInfo() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth != null
+                && auth.isAuthenticated()
+                && auth.getPrincipal() instanceof org.springframework.security.core.userdetails.User) {
+            String username = ((org.springframework.security.core.userdetails.User)auth.getPrincipal())
+                    .getUsername();
+            return ResponseEntity.ok(Map.of("username", username));
         }
-        return ResponseEntity.status(401).build(); // Unauthorized if not authenticated
+
+        // ← instead of 401, return 200 with empty map
+        return ResponseEntity.ok(Map.of());
     }
 
     @GetMapping("/favorite-lists")
@@ -51,8 +56,22 @@ public class UserController {
         }
         return ResponseEntity.status(401).build(); // Unauthorized if not authenticated
     }
+}
+//    @GetMapping("/info")
+//    public ResponseEntity<User> getCurrentUserInfo() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//
+//        if (authentication != null && authentication.isAuthenticated() && authentication.getPrincipal() instanceof org.springframework.security.core.userdetails.User) {
+//            String username = ((org.springframework.security.core.userdetails.User) authentication.getPrincipal()).getUsername();
+//            Optional<User> userOptional = userRepository.findByUsername(username);
+//            return userOptional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+//        }
+//        return ResponseEntity.status(401).build(); // Unauthorized if not authenticated
+//    }
+
+
 
     // You can add more endpoints here for other user-related actions
-}
+
 
 
