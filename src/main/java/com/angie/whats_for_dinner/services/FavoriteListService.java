@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FavoriteListService {
@@ -20,23 +21,29 @@ public class FavoriteListService {
     @Autowired
     private UserRepository userRepository;
 
-    public List<FavoriteList> getAllFavoriteLists() {
-        return favoriteListRepository.findAll();
+    @Autowired
+    private FavoriteRestaurantRepository favoriteRestaurantRepository;
+
+    public List<FavoriteList> getAllFavoriteListsByUserId(Long userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        return userOptional.map(User::getFavoriteLists).orElse(List.of());
     }
 
-    public FavoriteList createFavoriteList(String listName, Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
-
-        FavoriteList newList = new FavoriteList();
-        newList.setName(listName);
-        newList.setUser(user);
-
-        return favoriteListRepository.save(newList);
+    public FavoriteList createFavoriteList(String name, Long userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            FavoriteList favoriteList = new FavoriteList();
+            favoriteList.setName(name);
+            favoriteList.setUser(user);
+            return favoriteListRepository.save(favoriteList);
+        }
+        // Handle case where user is not found (e.g., throw exception or return null)
+        return null;
     }
 
 
-    public void addRestaurantToList(Long listId, Long restaurantId, FavoriteRestaurantRepository favoriteRestaurantRepository) {
+    public void addRestaurantToList(Long listId, Long restaurantId) {
         FavoriteList list = favoriteListRepository.findById(listId)
                 .orElseThrow(() -> new RuntimeException("Favorite List not found"));
 

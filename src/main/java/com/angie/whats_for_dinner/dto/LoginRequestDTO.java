@@ -10,6 +10,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoginRequestDTO {
+    private Long id;
     private String username;
     private String password;
 }
