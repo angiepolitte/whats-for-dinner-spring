@@ -26,9 +26,18 @@ public class UserService {
     }
 
     public boolean authenticateUser(String username, String rawPassword) {
-        User user = userRepository.findByUsername(username);
-        if (user == null) return false;
-        return BCrypt.checkpw(rawPassword, user.getPassword());  // Use BCrypt directly
+        // Use Optional to handle the potential null value safely
+        Optional<User> userOptional = userRepository.findByUsername(username);
+
+        // Check if the user exists
+        if (userOptional.isEmpty()) {
+            return false;  // Return false if the user doesn't exist
+        }
+
+        User user = userOptional.get();  // Get the User object from the Optional
+
+        // Check the password using BCrypt
+        return BCrypt.checkpw(rawPassword, user.getPassword());
     }
 }
 
