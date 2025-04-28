@@ -5,12 +5,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Arrays;
 import java.util.List;
 
-@Configuration // Already present, but ensure it's in component scan path
+@Configuration
 public class CorsConfig implements WebMvcConfigurer {
 
     @Bean
@@ -24,20 +25,13 @@ public class CorsConfig implements WebMvcConfigurer {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
-//    @Bean
-//    public CorsConfigurationSource corsConfigurationSource() {
-//        CorsConfiguration configuration = new CorsConfiguration();
-//        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173")); // React app URL
-//        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-//        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
-//        configuration.setAllowCredentials(true);
-//        configuration.addExposedHeader("Authorization");
-//        configuration.addExposedHeader("Access-Control-Allow-Origin");
-//        configuration.addExposedHeader("Access-Control-Allow-Credentials");
-//        configuration.setMaxAge(3600L); // Cache preflight response for 1 hour
-//
-//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-//        source.registerCorsConfiguration("/**", configuration);  // Apply to all endpoints
-//        return source;
-//    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**") // Allow all paths
+                .allowedOrigins("http://localhost:5173") // Allow your frontend's origin
+                .allowedMethods("GET", "POST", "PUT", "DELETE") // Allow specific HTTP methods
+                .allowCredentials(true); // Allow sending cookies with the request
+    }
+
 }
