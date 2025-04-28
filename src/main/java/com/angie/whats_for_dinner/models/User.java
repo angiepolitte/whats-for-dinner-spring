@@ -9,7 +9,7 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.List;
 
-
+//*************  WITHOUT SPRING SECURITY - no difference  ****************
 @Entity
 @Getter @Setter
 public class User {
@@ -29,6 +29,9 @@ public class User {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<FavoriteList> favoriteLists = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<FavoriteRestaurant> favoriteRestaurants = new ArrayList<>();
+
     public User() {}
 
     public User(Long id, String username, String password, List<FavoriteList> favoriteLists) {
@@ -40,3 +43,6 @@ public class User {
 
 
 }
+
+
+//https://chatgpt.com/share/680eb638-2f54-800f-adef-8f223e8a746c

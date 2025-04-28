@@ -21,6 +21,10 @@ public class FavoriteRestaurant {
     @ManyToMany(mappedBy = "favoriteRestaurants")
     private List<FavoriteList> favoriteLists = new ArrayList<>();
 
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
     public FavoriteRestaurant() {};
 
     public FavoriteRestaurant(Long id, String restaurantName, String restaurantAddress, List<FavoriteList> favoriteLists) {

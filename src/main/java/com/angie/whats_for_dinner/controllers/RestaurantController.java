@@ -2,15 +2,13 @@ package com.angie.whats_for_dinner.controllers;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/restaurants")
+@CrossOrigin(origins = "http://localhost:5173", allowCredentials = "true")
 public class RestaurantController {
 
     @Value("${google.api.key}")
