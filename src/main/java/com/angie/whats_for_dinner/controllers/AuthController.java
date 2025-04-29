@@ -6,6 +6,7 @@ import com.angie.whats_for_dinner.dto.RegistrationRequestDTO;
 import com.angie.whats_for_dinner.models.User;
 import com.angie.whats_for_dinner.services.UserService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -64,6 +65,7 @@ public class AuthController {
         return ResponseEntity.status(401).body(errorResponse);
     }
 
+
     @PostMapping("/logout")
     public ResponseEntity<String> logout(HttpSession session) {
         session.invalidate();
@@ -80,5 +82,27 @@ public class AuthController {
         } else {
             return ResponseEntity.status(401).body("Not logged in");
         }
+    }
+    @GetMapping("/me")
+    public ResponseEntity<?> getCurrentUser(HttpSession session) {
+        Long userId = (Long) session.getAttribute("userId");
+
+        if (userId == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Not logged in");
+        }
+
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
+        }
+
+        User user = userOptional.get();
+
+        // Return only what you want the frontend to see
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", user.getId());
+        response.put("username", user.getUsername());
+
+        return ResponseEntity.ok(response);
     }
 }
